@@ -1,0 +1,43 @@
+How to Build Jasig CAS with the ClearPass Extention
+
+Below are the steps to build Jasig CAS with the ClearPass extention.  If you are already
+familiar with the Maven2 WAR Overlay Method and have Maven installed you can skip the 
+instructions and simply run 'mvn clean package'.
+
+1. Setup a local CAS build using the Maven2 WAR Overlay Method
+The CAS User Manual provides step-by-step instructions: http://www.ja-sig.org/wiki/x/sgKkAQ
+
+2. Add ClearPass dependency to the Maven's Project Object Model file (see example pom.xml)
+<dependency>
+   <groupId>org.jasig.cas3.extensions</groupId>
+   <artifactId>clearpass-webapp</artifactId>
+   <version>1.0.0.GA</version>
+   <scope>runtime</scope>
+   <type>war</type>
+</dependency>
+
+3. In CAS $PROJECT_HOME, run 'mvn clean package'
+This will create $PROJECT_HOME\target\cas.war.
+
+4. Deploy cas.war to Tomcat
+
+5. Optionally configure WEB-INF\deployerConfigContext.xml and WEB-INF\web.xml
+These files could also be included using the Overlay Method by creating:
+* $PROJECT_HOME\src\main\webapp\WEB-INF\deployerConfigContext.xml
+* $PROJECT_HOME\src\main\webapp\WEB-INF\web.xml
+
+6. Verify CAS install
+Authenticate normally by visiting https://{host}/cas/login
+
+7. Verify ClearPass install
+Authenticate normally by visiting https://{host}/cas/clearPass.  You should get this message back.
+
+<cas:clearPassResponse xmlns:cas='http://www.yale.edu/tp/cas'>
+	<cas:clearPassFailure>invalid sevice specified</cas:clearPassFailure>
+</cas:clearPassResponse>
+
+
+Reference:
+* CAS User Manual: ClearPass - http://www.ja-sig.org/wiki/display/CASUM/ClearPass
+* Building and deploying CAS with the ClearPass extension - http://www.unicon.net/blog/3/deploying_clearpass
+* Best Practice - Setting Up CAS Locally using the Maven2 WAR Overlay Method - http://www.ja-sig.org/wiki/x/sgKkAQ
